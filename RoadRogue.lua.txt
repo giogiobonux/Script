@@ -725,10 +725,10 @@ function Reanimate()
 			{ Blacklist = true, Name = "Right Leg", AlternativeName = "LeftLowerArm", MeshId = "14768684979", TextureId = "14768683674", AllowAlternativeCFrame = false, CoordinateFrame = CFrameAngles(0, 1.57, 1.57), AlternativeCFrame = CFrameidentity },
 
 			-- Weapons below (alternative names for editing)
-			{ Blacklist = true, Name = "Uzi", AlternativeName = "Rifle", MeshId = "14555763279", TextureId = "14555806745", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(0, 0.15, 0.50) * CFrameAngles(1.45, -3.15, -3.15), AlternativeCFrame = CFrameidentity },
+			{ Blacklist = true, Name = "Uzi", AlternativeName = "Rifle", MeshId = "14555763279", TextureId = "14555806745", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(0, 0.15, 0.55) * CFrameAngles(1.45, -3, -3), AlternativeCFrame = CFrameidentity },
 			{ Blacklist = true, Name = "Bazooka", AlternativeName = "Rifle", MeshId = "6831441507", TextureId = "6833003967", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(0, 0, 0) * CFrameAngles(0, 1.45, -0.75), AlternativeCFrame = CFrameidentity },
 			{ Blacklist = true, Name = "Bullet", AlternativeName = "Bullet", MeshId = "5195286954", TextureId = "5195175614", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(0, 0.15, 0.55) * CFrameAngles(1.45, -3.15, -3.15), AlternativeCFrame = CFrameidentity },
-			{ Blacklist = true, Name = "Motor", AlternativeName = "Motorcycle", MeshId = "17465242261", TextureId = "15715146917", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(0, -0.15, 0.55) * CFrameAngles(0, 0, 0), AlternativeCFrame = CFrameidentity },
+			{ Blacklist = true, Name = "Motor", AlternativeName = "Motorcycle", MeshId = "11960705614", TextureId = "11960667630", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(0, -0.15, 0.55) * CFrameAngles(0, 0, 0), AlternativeCFrame = CFrameidentity },
 
 		},
 		Rig = {
