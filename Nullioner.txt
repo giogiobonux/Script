@@ -714,7 +714,7 @@ function Reanimate()
             { Blacklist = true, Name = "Railgun", AlternativeName = "White Flamethrower [Back]", MeshId = "14095551384", TextureId = "14095194633", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(-0.20, 0.40, 0) * CFrameAngles(0, 3.15, 0.75), AlternativeCFrame = CFrameidentity },
             { Blacklist = true, Name = "Railgun", AlternativeName = "Water Gun Shark Black", MeshId = "14842067627", TextureId = "14842112232", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(-0.65, 0.45, 0) * CFrameAngles(0, 3.15, 0.75), AlternativeCFrame = CFrameidentity },
             { Blacklist = true, Name = "Railgun", AlternativeName = "Railgun AR", MeshId = "17657496667", TextureId = "17664998348", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(-0.15, 0.25 , -0.05) * CFrameAngles(0, 1.57, 0), AlternativeCFrame = CFrameidentity },
-            { Blacklist = true, Name = "Railgun", AlternativeName = "AJ's Blaster, the Bahemoth", MeshId = "6831441507", TextureId = "6833003967", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(-0.50, 0.40, 0) * CFrameAngles(0, 3.15, 0.75), AlternativeCFrame = CFrameidentity },
+            { Blacklist = true, Name = "Railgun", AlternativeName = "AJ's Blaster, the Bahemoth", MeshId = "6831441507", TextureId = "6833003967", AllowAlternativeCFrame = false, CoordinateFrame = CFramenew(-0.20, 0.40, -4.5) * CFrameAngles(0, 0, 0.75), AlternativeCFrame = CFrameidentity },
 		},
 		Rig = {
 			Transparency = 1,
