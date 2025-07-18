@@ -1,0 +1,724 @@
+--tilt
+local RunService = game:GetService'RunService'
+local Players = game:GetService'Players'
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:FindFirstChildOfClass'Humanoid'
+local RootPart = Character:WaitForChild'HumanoidRootPart'
+local RootJoint = RootPart:WaitForChild'RootJoint'
+local RootC0 = RootJoint.C0
+
+local MaxTiltAngle = 10
+
+local Tilt = CFrame.new()
+RunService.RenderStepped:Connect(function(Delta)
+    local MoveDirection = RootPart.CFrame:VectorToObjectSpace(Humanoid.MoveDirection)
+    Tilt = Tilt:Lerp(CFrame.Angles(math.rad(-MoveDirection.Z) * MaxTiltAngle, math.rad(-MoveDirection.X) * MaxTiltAngle, 0), 0.2 ^ (1 / (Delta * 60)))
+    RootJoint.C0 = RootC0 * Tilt
+end)
+
+--gui
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local LocalPlayer = Players.LocalPlayer
+
+local function playSoundOnce(soundId)
+	local sound = Instance.new("Sound")
+	sound.SoundId = "rbxassetid://" .. soundId
+	sound.Volume = 1
+	sound.Parent = workspace
+	sound:Play()
+	sound.Ended:Connect(function()
+		sound:Destroy()
+	end)
+end
+
+StarterGui:SetCore("SendNotification", {
+	Title = "Limb Reanim - Noli",
+	Text = "Forsakation",
+	Icon = "rbxassetid://131253885793217",
+	Duration = 5
+})
+playSoundOnce("100384236266219")
+
+local hasPlayedDeathSound = {}
+
+local function monitorDeathOnce(player)
+	if hasPlayedDeathSound[player] then return end
+
+	local function onCharacterAdded(character)
+		local humanoid = character:WaitForChild("Humanoid", 5)
+		if humanoid then
+			humanoid.Died:Connect(function()
+				if not hasPlayedDeathSound[player] then
+					hasPlayedDeathSound[player] = true
+					playSoundOnce("108265709110402")
+				end
+			end)
+		end
+	end
+
+	if player.Character then
+		onCharacterAdded(player.Character)
+	end
+	player.CharacterAdded:Connect(onCharacterAdded)
+end
+
+monitorDeathOnce(LocalPlayer)
+
+for _, player in ipairs(Players:GetPlayers()) do
+	if player ~= LocalPlayer and player.Name:match("_Fake$") then
+		monitorDeathOnce(player)
+	end
+end
+
+Players.PlayerAdded:Connect(function(player)
+	if player.Name:match("_Fake$") then
+		monitorDeathOnce(player)
+	end
+end)
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+local AnimHandler = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProudNamed/SuperLightning/refs/heads/main/AnimModule/MainModule"))()
+
+local IdleAnimId = 76325553489897
+local WalkAnimId = 119144086791841
+
+local IdleAnim = game:GetObjects("rbxassetid://"..IdleAnimId)[1]
+local WalkAnim = game:GetObjects("rbxassetid://"..WalkAnimId)[1]
+IdleAnim.Parent = Character
+WalkAnim.Parent = Character
+
+local Idle = AnimHandler.new(Character, IdleAnim)
+local Walk = AnimHandler.new(Character, WalkAnim)
+Idle.Looped = true
+Walk.Looped = true
+Idle:Play()
+
+local isWalking = false
+local animationLocked = false
+
+local walkSound = Instance.new("Sound")
+walkSound.SoundId = "rbxassetid://112493816277031"
+walkSound.Looped = true
+walkSound.Volume = 1
+walkSound.Name = "WalkSound"
+walkSound.Parent = HumanoidRootPart
+
+RunService.RenderStepped:Connect(function()
+	if animationLocked then
+		if walkSound.IsPlaying then walkSound:Stop() end
+		return
+	end
+
+	local vel = HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)
+	if vel.Magnitude > 1 then
+		if not isWalking then
+			isWalking = true
+                        Idle:Stop(0.2)
+                        Walk:Play(0.2)
+                        Walk:AdjustSpeed(1)
+
+			if not walkSound.IsPlaying then
+				walkSound:Play()
+			end
+		end
+	else
+		if isWalking then
+			isWalking = false
+			Walk:Stop()
+			Idle:Play()
+			if walkSound.IsPlaying then
+				walkSound:Stop()
+			end
+		end
+	end
+end)
+
+--TOOLS dance tool ye
+
+local InvincibleAnimId = 80641587562132
+
+local stabAnim = game:GetObjects("rbxassetid://".. InvincibleAnimId)[1]
+stabAnim.Parent = Character
+local stabPlayer = AnimHandler.new(Character, stabAnim)
+stabPlayer.Looped = true
+
+local invincibleTool = Instance.new("Tool")
+stabTool.Name = "Invincible"
+stabTool.RequiresHandle = true
+stabTool.CanBeDropped = false
+stabTool.Parent = Player.Backpack
+
+local invincibleHandle = Instance.new("Part")
+stabHandle.Name = "Handle"
+stabHandle.Size = Vector3.new(1, 1, 1)
+stabHandle.Transparency = 1
+stabHandle.CanCollide = false
+stabHandle.Anchored = false
+stabHandle.Parent = stabTool
+
+stabTool.Activated:Connect(function()
+	if not invincibleTool.Enabled then return end
+	invincibleTool.Enabled = false
+	animationLocked = true
+
+	if Idle.IsPlaying then Idle:Stop() end
+	if Walk.IsPlaying then Walk:Stop() end
+	
+	stabPlayer:Play()
+
+	local invincibleSound = Instance.new("Sound")
+	stabSound.SoundId = "rbxassetid://107424491541808"
+	stabSound.Volume = 1
+	stabSound.Parent = HumanoidRootPart
+	stabSound:Play()
+	stabSound.Ended:Connect(function()
+		stabSound:Destroy()
+	end)
+
+	local origin = HumanoidRootPart.Position
+	local direction = HumanoidRootPart.CFrame.LookVector * 5
+	local params = RaycastParams.new()
+	params.FilterDescendantsInstances = {Character}
+	params.FilterType = Enum.RaycastFilterType.Blacklist
+
+	local result = Workspace:Raycast(origin, direction, params)
+	if result and result.Instance then
+		local model = result.Instance:FindFirstAncestorOfClass("Model")
+		local humanoid = model and model:FindFirstChildWhichIsA("Humanoid")
+		local myName = Player.Name
+		local isIgnored = model and (model.Name == myName or model.Name == myName.."_Fake")
+		if humanoid and not isIgnored and model ~= Character then
+			-- No damage applied
+		end
+	end
+
+	task.delay(invinciblePlayer.Length, function()
+		animationLocked = false
+		local vel = HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)
+		if vel.Magnitude > 1 then
+			Walk:Play()
+			isWalking = true
+		else
+			Idle:Play()
+			isWalking = false
+		end
+	end)
+
+	task.wait(1)
+	invincibleTool.Enabled = true
+end)
+
+--TOOLS stab tool ye
+
+local StabAnimId = 109230267448394
+
+local stabAnim = game:GetObjects("rbxassetid://"..StabAnimId)[1]
+stabAnim.Parent = Character
+local stabPlayer = AnimHandler.new(Character, stabAnim)
+stabPlayer.Looped = false
+
+local stabTool = Instance.new("Tool")
+stabTool.Name = "Stab"
+stabTool.RequiresHandle = true
+stabTool.CanBeDropped = false
+stabTool.Parent = Player.Backpack
+
+local stabHandle = Instance.new("Part")
+stabHandle.Name = "Handle"
+stabHandle.Size = Vector3.new(1, 1, 1)
+stabHandle.Transparency = 1
+stabHandle.CanCollide = false
+stabHandle.Anchored = false
+stabHandle.Parent = stabTool
+
+stabTool.Activated:Connect(function()
+	if not stabTool.Enabled then return end
+	stabTool.Enabled = false
+	animationLocked = true
+
+	if Idle.IsPlaying then Idle:Stop() end
+	if Walk.IsPlaying then Walk:Stop() end
+	
+	stabPlayer:Play()
+
+	local stabSound = Instance.new("Sound")
+	stabSound.SoundId = "rbxassetid://84577591660743"
+	stabSound.Volume = 1
+	stabSound.Parent = HumanoidRootPart
+	stabSound:Play()
+	stabSound.Ended:Connect(function()
+		stabSound:Destroy()
+	end)
+
+	local origin = HumanoidRootPart.Position
+	local direction = HumanoidRootPart.CFrame.LookVector * 5
+	local params = RaycastParams.new()
+	params.FilterDescendantsInstances = {Character}
+	params.FilterType = Enum.RaycastFilterType.Blacklist
+
+	local result = Workspace:Raycast(origin, direction, params)
+	if result and result.Instance then
+		local model = result.Instance:FindFirstAncestorOfClass("Model")
+		local humanoid = model and model:FindFirstChildWhichIsA("Humanoid")
+		local myName = Player.Name
+		local isIgnored = model and (model.Name == myName or model.Name == myName.."_Fake")
+		if humanoid and not isIgnored and model ~= Character then
+			-- No damage applied
+		end
+	end
+
+	task.delay(stabPlayer.Length, function()
+		animationLocked = false
+		local vel = HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)
+		if vel.Magnitude > 1 then
+			Walk:Play()
+			isWalking = true
+		else
+			Idle:Play()
+			isWalking = false
+		end
+	end)
+
+	task.wait(1)
+	stabTool.Enabled = true
+end)
+
+-- void rush
+
+local voidDashLoop = 126896426760253
+local voidRushAnim = 139321362207112
+
+local dashAnim = game:GetObjects("rbxassetid://"..voidDashLoop)[1]
+local rushAnim = game:GetObjects("rbxassetid://"..voidRushAnim)[1]
+dashAnim.Parent = Character
+rushAnim.Parent = Character
+
+local dashPlayer = AnimHandler.new(Character, dashAnim)
+local rushPlayer = AnimHandler.new(Character, rushAnim)
+dashPlayer.Looped = true
+rushPlayer.Looped = false
+
+local voidTool = Instance.new("Tool")
+voidTool.Name = "VoidRush"
+voidTool.RequiresHandle = true
+voidTool.CanBeDropped = false
+voidTool.Parent = Player.Backpack
+
+local voidHandle = Instance.new("Part")
+voidHandle.Name = "Handle"
+voidHandle.Size = Vector3.new(1, 1, 1)
+voidHandle.Transparency = 1
+voidHandle.CanCollide = false
+voidHandle.Anchored = false
+voidHandle.Parent = voidTool
+
+local isRushing = false
+
+voidTool.Activated:Connect(function()
+	if isRushing then return end
+	isRushing = true
+	animationLocked = true
+
+	if Idle.IsPlaying then Idle:Stop() end
+	if Walk.IsPlaying then Walk:Stop() end
+
+	dashPlayer:Play()
+
+	local dashSound = Instance.new("Sound")
+	dashSound.SoundId = "rbxassetid://71729812996802"
+	dashSound.Looped = true
+	dashSound.Volume = 1
+	dashSound.Parent = HumanoidRootPart
+	dashSound:Play()
+
+	local touched = false
+
+	local velocityConn = RunService.RenderStepped:Connect(function()
+		local dir = Humanoid.MoveDirection
+		if dir.Magnitude > 0 then
+			HumanoidRootPart.Velocity = dir.Unit * 80
+		else
+			HumanoidRootPart.Velocity = HumanoidRootPart.CFrame.LookVector * 80
+		end
+	end)
+
+	local hitbox = Instance.new("Part")
+	hitbox.Size = Vector3.new(5, 5, 5)
+	hitbox.Transparency = 1
+	hitbox.CanCollide = false
+	hitbox.Anchored = false
+	hitbox.Massless = true
+	hitbox.CFrame = HumanoidRootPart.CFrame
+	hitbox.Parent = Character
+
+	local weld = Instance.new("WeldConstraint")
+	weld.Part0 = hitbox
+	weld.Part1 = HumanoidRootPart
+	weld.Parent = hitbox
+
+	local function playRushSounds()
+		local sound1 = Instance.new("Sound")
+		sound1.SoundId = "rbxassetid://99633263290261"
+		sound1.Volume = 1
+		sound1.Parent = HumanoidRootPart
+		sound1:Play()
+		sound1.Ended:Connect(function() sound1:Destroy() end)
+
+		local sound2 = Instance.new("Sound")
+		sound2.SoundId = "rbxassetid://75125283820321"
+		sound2.Volume = 1
+		sound2.Parent = HumanoidRootPart
+		sound2:Play()
+		sound2.Ended:Connect(function() sound2:Destroy() end)
+	end
+
+	local function stopDash()
+		if velocityConn then velocityConn:Disconnect() end
+		if dashPlayer.IsPlaying then dashPlayer:Stop() end
+		if dashSound.IsPlaying then dashSound:Stop() end
+		dashSound:Destroy()
+	end
+
+	local hitConn
+	hitConn = hitbox.Touched:Connect(function(part)
+		if touched then return end
+		local model = part:FindFirstAncestorOfClass("Model")
+		local humanoid = model and model:FindFirstChildWhichIsA("Humanoid")
+
+		local myName = Player.Name
+		local myClones = {myName, myName .. "_Fake"}
+		local modelName = model and model.Name or ""
+		local isMyselfOrClone = table.find(myClones, modelName) ~= nil
+		local isPlayer = Players:GetPlayerFromCharacter(model) ~= nil
+
+		if model ~= Character and not isMyselfOrClone then
+			touched = true
+			stopDash()
+			if hitConn then hitConn:Disconnect() end
+
+			if humanoid and not isPlayer then
+				humanoid:TakeDamage(humanoid.Health)
+			end
+
+			rushPlayer:Play()
+			playRushSounds()
+
+			task.delay(rushPlayer.Length, function()
+				animationLocked = false
+				local vel = HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)
+				if vel.Magnitude > 1 then
+					Walk:Play()
+					isWalking = true
+				else
+					Idle:Play()
+					isWalking = false
+				end
+				hitbox:Destroy()
+				isRushing = false
+			end)
+		end
+	end)
+
+	task.delay(5, function()
+		if not touched then
+			stopDash()
+			if hitConn then hitConn:Disconnect() end
+
+			rushPlayer:Play()
+			playRushSounds()
+
+			task.delay(rushPlayer.Length, function()
+				animationLocked = false
+				local vel = HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)
+				if vel.Magnitude > 1 then
+					Walk:Play()
+					isWalking = true
+				else
+					Idle:Play()
+					isWalking = false
+				end
+				hitbox:Destroy()
+				isRushing = false
+			end)
+		end
+	end)
+end)
+
+--Nova
+local novaAnimId = 107339108383093
+local novaAnim = game:GetObjects("rbxassetid://" .. novaAnimId)[1]
+novaAnim.Parent = Character
+local novaPlayer = AnimHandler.new(Character, novaAnim)
+novaPlayer.Looped = false
+
+local novaTool = Instance.new("Tool")
+novaTool.Name = "Nova"
+novaTool.RequiresHandle = true
+novaTool.CanBeDropped = false
+novaTool.Parent = Player.Backpack
+
+local novaHandle = Instance.new("Part")
+novaHandle.Name = "Handle"
+novaHandle.Size = Vector3.new(1, 1, 1)
+novaHandle.Transparency = 1
+novaHandle.CanCollide = false
+novaHandle.Anchored = false
+novaHandle.Parent = novaTool
+
+novaTool.Activated:Connect(function()
+	if not novaTool.Enabled then return end
+	novaTool.Enabled = false
+	animationLocked = true
+
+	if Idle.IsPlaying then Idle:Stop() end
+	if Walk.IsPlaying then Walk:Stop() end
+
+	novaPlayer:Play()
+
+	local spawnSound = Instance.new("Sound")
+	spawnSound.SoundId = "rbxassetid://123844642393952"
+	spawnSound.Volume = 1
+	spawnSound.Parent = HumanoidRootPart
+	spawnSound:Play()
+	spawnSound.Ended:Connect(function()
+		spawnSound:Destroy()
+	end)
+
+	task.delay(0.8, function()
+		local projectile = Instance.new("Part")
+		projectile.Size = Vector3.new(1.5, 1.5, 1.5)
+		projectile.Shape = Enum.PartType.Ball
+		projectile.Material = Enum.Material.Neon
+		projectile.BrickColor = BrickColor.White()
+		projectile.CanCollide = false
+		projectile.Anchored = false
+		projectile.CFrame = HumanoidRootPart.CFrame + HumanoidRootPart.CFrame.LookVector * 2
+		projectile.Name = "NovaProjectile"
+		projectile.Parent = workspace
+
+		local bodyVelocity = Instance.new("BodyVelocity")
+		bodyVelocity.Velocity = HumanoidRootPart.CFrame.LookVector * 100
+		bodyVelocity.MaxForce = Vector3.new(1e5, 1e5, 1e5)
+		bodyVelocity.P = 5000
+		bodyVelocity.Parent = projectile
+
+		local mesh = Instance.new("SpecialMesh")
+		mesh.MeshId = "rbxassetid://11405452653"
+		mesh.Scale = Vector3.new(1, 1, 1)
+		mesh.Parent = projectile
+
+		local att0 = Instance.new("Attachment", projectile)
+		local att1 = Instance.new("Attachment", projectile)
+		local trail = Instance.new("Trail")
+		trail.Attachment0 = att0
+		trail.Attachment1 = att1
+		trail.Color = ColorSequence.new(Color3.fromRGB(255, 255, 255))
+		trail.Lifetime = 0.2
+		trail.WidthScale = NumberSequence.new(0.4)
+		trail.Parent = projectile
+
+		local rotator = RunService.Heartbeat:Connect(function()
+			if projectile and projectile.Parent then
+				projectile.CFrame = projectile.CFrame * CFrame.Angles(0.2, 0.4, 0)
+			end
+		end)
+
+		local touched = false
+
+		projectile.Touched:Connect(function(part)
+			if touched then return end
+
+			local model = part:FindFirstAncestorOfClass("Model")
+			local myName = Player.Name
+
+			if model and (model == Character or model.Name == myName or model.Name == myName .. "_Fake") then
+				return
+			end
+
+			touched = true
+
+			local humanoid = model and model:FindFirstChildWhichIsA("Humanoid")
+			local isPlayer = Players:GetPlayerFromCharacter(model) ~= nil
+
+			local explosion = Instance.new("Explosion")
+			explosion.Position = projectile.Position
+			explosion.BlastRadius = 5
+			explosion.BlastPressure = 0
+			explosion.DestroyJointRadiusPercent = 0
+			explosion.Visible = true
+			explosion.ExplosionType = Enum.ExplosionType.NoCraters
+			explosion.Parent = workspace
+
+			local explosionSound = Instance.new("Sound")
+			explosionSound.SoundId = "rbxassetid://138431847338244"
+			explosionSound.Volume = 1
+			explosionSound.Parent = explosion
+			explosionSound:Play()
+			explosionSound.Ended:Connect(function()
+				explosionSound:Destroy()
+			end)
+
+			local purpleGlow = Instance.new("PointLight")
+			purpleGlow.Color = Color3.fromRGB(128, 0, 255)
+			purpleGlow.Range = 10
+			purpleGlow.Brightness = 3
+			purpleGlow.Parent = explosion
+
+			if humanoid and not isPlayer and model ~= Character and model.Name ~= myName .. "_Fake" then
+				humanoid:TakeDamage(humanoid.Health)
+			end
+
+			if rotator then rotator:Disconnect() end
+			projectile:Destroy()
+		end)
+
+		task.delay(5, function()
+			if not touched and projectile and projectile.Parent then
+				projectile:Destroy()
+			end
+			if rotator then rotator:Disconnect() end
+		end)
+	end)
+
+	task.delay(novaPlayer.Length, function()
+		animationLocked = false
+		local vel = HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)
+		if vel.Magnitude > 1 then
+			Walk:Play()
+			isWalking = true
+		else
+			Idle:Play()
+			isWalking = false
+		end
+	end)
+
+	task.wait(1.2)
+	novaTool.Enabled = true
+end)
+
+--Observer Tool
+local observerAnimId = 79536927922413
+local observerAnim = game:GetObjects("rbxassetid://" .. observerAnimId)[1]
+observerAnim.Parent = Character
+local observerPlayer = AnimHandler.new(Character, observerAnim)
+observerPlayer.Looped = false
+
+local observerTool = Instance.new("Tool")
+observerTool.Name = "Observer"
+observerTool.RequiresHandle = true
+observerTool.CanBeDropped = false
+observerTool.Parent = Player.Backpack
+
+local observerHandle = Instance.new("Part")
+observerHandle.Name = "Handle"
+observerHandle.Size = Vector3.new(1, 1, 1)
+observerHandle.Transparency = 1
+observerHandle.CanCollide = false
+observerHandle.Anchored = false
+observerHandle.Parent = observerTool
+
+observerTool.Activated:Connect(function()
+	if not observerTool.Enabled then return end
+	observerTool.Enabled = false
+	animationLocked = true
+
+	if Idle.IsPlaying then Idle:Stop() end
+	if Walk.IsPlaying then Walk:Stop() end
+
+	observerPlayer:Play()
+
+	local observerSound = Instance.new("Sound")
+	observerSound.SoundId = "rbxassetid://94878006933397"
+	observerSound.Volume = 1
+	observerSound.Parent = HumanoidRootPart
+	observerSound:Play()
+	observerSound.Ended:Connect(function()
+		observerSound:Destroy()
+	end)
+
+	task.delay(observerPlayer.Length, function()
+		animationLocked = false
+		local vel = HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)
+		if vel.Magnitude > 1 then
+			Walk:Play()
+			isWalking = true
+		else
+			Idle:Play()
+			isWalking = false
+		end
+
+		local highlights = {}
+		local myName = Player.Name
+
+		for _, model in ipairs(workspace:GetDescendants()) do
+			if model:IsA("Model") and model:FindFirstChildWhichIsA("Humanoid") then
+				local isPlayer = Players:GetPlayerFromCharacter(model) ~= nil
+				local isIgnored = model.Name == myName or model.Name == myName .. "_Fake"
+				if not isIgnored and model ~= Character then
+					local highlight = Instance.new("Highlight")
+					highlight.FillColor = Color3.fromRGB(170, 0, 255)
+					highlight.OutlineColor = Color3.fromRGB(200, 0, 255)
+					highlight.FillTransparency = 0.4
+					highlight.OutlineTransparency = 0
+					highlight.Adornee = model
+					highlight.Parent = model
+					table.insert(highlights, highlight)
+				end
+			end
+		end
+
+		task.delay(10, function()
+			for _, hl in ipairs(highlights) do
+				if hl and hl.Parent then
+					hl:Destroy()
+				end
+			end
+			observerTool.Enabled = true
+		end)
+	end)
+end)
+
+--head movement
+local tweenService = game:GetService("TweenService")
+
+local Camera = workspace.CurrentCamera
+local Player = game.Players.LocalPlayer
+
+local Character = Player.Character
+local Root = Character:WaitForChild("HumanoidRootPart")
+local Neck = Character:FindFirstChild("Neck", true)
+local YOffset = Neck.C0.Y
+
+local CFNew, CFAng = CFrame.new, CFrame.Angles
+local asin = math.asin
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    local CameraDirection = Root.CFrame:toObjectSpace(Camera.CFrame).lookVector
+    if Neck then
+        if Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
+            Neck.C0 = CFNew(0, YOffset, 0) * CFAng(0, -asin(CameraDirection.x), 0) * CFAng(asin(CameraDirection.y), 0, 0)
+        elseif Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
+            Neck.C0 = CFNew(0, YOffset, 0) * CFAng(3 * math.pi/2, 0, math.pi) * CFAng(0, 0, -asin(CameraDirection.x)) * CFAng(-asin(CameraDirection.y), 0, 0)
+        end
+    end
+end)
+
+game.ReplicatedStorage.Look.OnClientEvent:Connect(function(otherPlayer, neckCFrame)
+    local Neck = otherPlayer.Character:FindFirstChild("Neck", true)
+
+    if Neck then
+        tweenService:Create(Neck, TweenInfo.new(.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out, 0, false, 0), {C0 = neckCFrame}):Play()
+    end
+end)
+
+while wait(1) do
+    game.ReplicatedStorage.Look:FireServer(Neck.C0)
+end
