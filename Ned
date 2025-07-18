@@ -148,7 +148,7 @@ local InvincibleAnimId = 80641587562132
 local invincibleAnim = game:GetObjects("rbxassetid://".. InvincibleAnimId)[1]
 invincibleAnim.Parent = Character
 local invinciblePlayer = AnimHandler.new(Character, invincibleAnim)
-invinciblePlayer.Looped = true
+invinciblePlayer.Looped = false
 
 local invincibleTool = Instance.new("Tool")
 invincibleTool.Name = "Invincible"
