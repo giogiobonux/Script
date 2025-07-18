@@ -166,8 +166,8 @@ invincibleHandle.Parent = invincibleTool
 
 invincibleTool.Activated:Connect(function()
 	if not invincibleTool.Enabled then return end
-	invincibleTool.Enabled = false
-	animationLocked = true
+	invincibleTool.Enabled = true
+	animationLocked = false
 
 	if Idle.IsPlaying then Idle:Stop() end
 	if Walk.IsPlaying then Walk:Stop() end
