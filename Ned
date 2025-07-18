@@ -143,77 +143,28 @@ end)
 
 --TOOLS dance tool ye
 
-local InvincibleAnimId = 80641587562132
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
 
-local invincibleAnim = game:GetObjects("rbxassetid://".. InvincibleAnimId)[1]
-invincibleAnim.Parent = Character
-local invinciblePlayer = AnimHandler.new(Character, invincibleAnim)
-invinciblePlayer.Looped = false
+local AnimHandler = loadstring(game:HttpGet("https://raw.githubusercontent.com/ProudNamed/SuperLightning/refs/heads/main/AnimModule/MainModule"))()
 
-local invincibleTool = Instance.new("Tool")
-invincibleTool.Name = "Invincible"
-invincibleTool.RequiresHandle = true
-invincibleTool.CanBeDropped = false
-invincibleTool.Parent = Player.Backpack
+local TOOL_NAME = "invincible"
+local ANIMATION_ID = "80641587562132"
 
-local invincibleHandle = Instance.new("Part")
-invincibleHandle.Name = "Handle"
-invincibleHandle.Size = Vector3.new(1, 1, 1)
-invincibleHandle.Transparency = 1
-invincibleHandle.CanCollide = false
-invincibleHandle.Anchored = false
-invincibleHandle.Parent = invincibleTool
+local tool = Instance.new("Tool")
+tool.Name = TOOL_NAME
+tool.RequiresHandle = false
+tool.CanBeDropped = false
+tool.Parent = Player:WaitForChild("Backpack")
 
-invincibleTool.Activated:Connect(function()
-	if not invincibleTool.Enabled then return end
-	invincibleTool.Enabled = true
-	animationLocked = false
+local anim = game:GetObjects("rbxassetid://" .. ANIMATION_ID)[1]
+anim.Parent = Character
+local animPlayer = AnimHandler.new(Character, anim)
+animPlayer.Looped = false
 
-	if Idle.IsPlaying then Idle:Stop() end
-	if Walk.IsPlaying then Walk:Stop() end
-	
-	invinciblePlayer:Play()
-
-	local invincibleSound = Instance.new("Sound")
-	invincibleSound.SoundId = "rbxassetid://107424491541808"
-	invincibleSound.Volume = 1
-	invincibleSound.Parent = HumanoidRootPart
-	invincibleSound:Play()
-	invincibleSound.Ended:Connect(function()
-		invincibleSound:Destroy()
-	end)
-
-	local origin = HumanoidRootPart.Position
-	local direction = HumanoidRootPart.CFrame.LookVector * 5
-	local params = RaycastParams.new()
-	params.FilterDescendantsInstances = {Character}
-	params.FilterType = Enum.RaycastFilterType.Blacklist
-
-	local result = Workspace:Raycast(origin, direction, params)
-	if result and result.Instance then
-		local model = result.Instance:FindFirstAncestorOfClass("Model")
-		local humanoid = model and model:FindFirstChildWhichIsA("Humanoid")
-		local myName = Player.Name
-		local isIgnored = model and (model.Name == myName or model.Name == myName.."_Fake")
-		if humanoid and not isIgnored and model ~= Character then
-			-- No damage applied
-		end
-	end
-
-	task.delay(invinciblePlayer.Length, function()
-		animationLocked = false
-		local vel = HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)
-		if vel.Magnitude > 1 then
-			Walk:Play()
-			isWalking = true
-		else
-			Idle:Play()
-			isWalking = false
-		end
-	end)
-
-	task.wait(1)
-	invincibleTool.Enabled = true
+tool.Activated:Connect(function()
+    animPlayer:Play()
 end)
 
 --TOOLS stab tool ye
