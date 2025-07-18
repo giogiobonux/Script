@@ -145,26 +145,26 @@ end)
 
 local InvincibleAnimId = 80641587562132
 
-local stabAnim = game:GetObjects("rbxassetid://".. InvincibleAnimId)[1]
-stabAnim.Parent = Character
-local stabPlayer = AnimHandler.new(Character, stabAnim)
-stabPlayer.Looped = true
+local invincibleAnim = game:GetObjects("rbxassetid://".. InvincibleAnimId)[1]
+invincibleAnim.Parent = Character
+local invinciblePlayer = AnimHandler.new(Character, invincibleAnim)
+invinciblePlayer.Looped = true
 
 local invincibleTool = Instance.new("Tool")
-stabTool.Name = "Invincible"
-stabTool.RequiresHandle = true
-stabTool.CanBeDropped = false
-stabTool.Parent = Player.Backpack
+invincibleTool.Name = "Invincible"
+invincibleTool.RequiresHandle = true
+invincibleTool.CanBeDropped = false
+invincibleTool.Parent = Player.Backpack
 
 local invincibleHandle = Instance.new("Part")
-stabHandle.Name = "Handle"
-stabHandle.Size = Vector3.new(1, 1, 1)
-stabHandle.Transparency = 1
-stabHandle.CanCollide = false
-stabHandle.Anchored = false
-stabHandle.Parent = stabTool
+invincibleHandle.Name = "Handle"
+invincibleHandle.Size = Vector3.new(1, 1, 1)
+invincibleHandle.Transparency = 1
+invincibleHandle.CanCollide = false
+invincibleHandle.Anchored = false
+invincibleHandle.Parent = invincibleTool
 
-stabTool.Activated:Connect(function()
+invincibleTool.Activated:Connect(function()
 	if not invincibleTool.Enabled then return end
 	invincibleTool.Enabled = false
 	animationLocked = true
@@ -172,15 +172,15 @@ stabTool.Activated:Connect(function()
 	if Idle.IsPlaying then Idle:Stop() end
 	if Walk.IsPlaying then Walk:Stop() end
 	
-	stabPlayer:Play()
+	invinciblePlayer:Play()
 
 	local invincibleSound = Instance.new("Sound")
-	stabSound.SoundId = "rbxassetid://107424491541808"
-	stabSound.Volume = 1
-	stabSound.Parent = HumanoidRootPart
-	stabSound:Play()
-	stabSound.Ended:Connect(function()
-		stabSound:Destroy()
+	invincibleSound.SoundId = "rbxassetid://107424491541808"
+	invincibleSound.Volume = 1
+	invincibleSound.Parent = HumanoidRootPart
+	invincibleSound:Play()
+	invincibleSound.Ended:Connect(function()
+		invincibleSound:Destroy()
 	end)
 
 	local origin = HumanoidRootPart.Position
