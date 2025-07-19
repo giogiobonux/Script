@@ -1244,7 +1244,7 @@ RunService.RenderStepped:Connect(function()
 			eight8.Image = "rbxassetid://103241825392940" -- Locked
 			one1.Holder.Value = "ChronoShift"
 			two2.Holder.Value = "California Girls"
-			three3.Holder.Value = "BrickBattler"
+			three3.Holder.Value = "invincible"
 			four4.Holder.Value = "Knightly Shimmy"
 			five5.Holder.Value = "The Hero"
 			six6.Holder.Value = "Insanity"
@@ -1252,7 +1252,7 @@ RunService.RenderStepped:Connect(function()
 			eight8.Holder.Value = "Locked"
 			one1.AnimID.Value = 130686615743311
 			two2.AnimID.Value = 74194754788106
-			three3.AnimID.Value = 120114444852778
+			three3.AnimID.Value = 80641587562132
 			four4.AnimID.Value = 136725769431986
 			five5.AnimID.Value = 115431798094168
 			six6.AnimID.Value = 116090545618337
@@ -1260,7 +1260,7 @@ RunService.RenderStepped:Connect(function()
 			eight8.AnimID.Value = 136423821703954
 			one = "https://github.com/CyberNinja103/Audio/raw/refs/heads/main/Forsaken_Chronoshift_.mp3.mp3"
 			two = ""
-			three = "https://github.com/CyberNinja103/Audio/raw/refs/heads/main/BrickBattlerNew.mp3.mp3"
+			three = "https://github.com/gObl00x/Epik-Musics/raw/refs/heads/main/Dia%20Delicia.mp3"
 			four = "https://github.com/CyberNinja103/Audio/raw/refs/heads/main/KnightlyShammyEmote.mp3.mp3"
 			five = "https://github.com/CyberNinja103/Audio/raw/refs/heads/main/TheHeroEmote.mp3.mp3"
 			six = "https://github.com/CyberNinja103/Audio/raw/refs/heads/main/TheHeroEmote.mp3.mp3"
