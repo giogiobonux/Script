@@ -1110,7 +1110,7 @@ Accessories = {
 { MeshId = "129034819260278", TextureId = "103190156827623", Name = "Reanimate_Dummy", Offset = CFrame.new(0, 0.25, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},
 -- Free
 { MeshId = "7547179386", TextureId = "7547152243", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(2.56, 1.57, 0)},--84451219120140
-{ MeshId = "11524268570", TextureId = "11524268595", Name = "Reanimate_Machete", Offset = CFrame.new(0.15, 1.05, -1) * CFrame.Angles(Rad(-75), 0, Rad(180))},--84451219120140
+{ MeshId = "82149851412853", TextureId = "130342983866835", Name = "Reanimate_Machete", Offset = CFrame.new(0.15, 1.05, -1) * CFrame.Angles(Rad(-75), 0, Rad(180))},--84451219120140
 { MeshId = "12495661615", TextureId = "12495666203", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0)},--84451219120140
 },
 ApplyDescription = true,
