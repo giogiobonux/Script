@@ -1048,6 +1048,7 @@ Empyrean = Start({
                 { MeshId = "83395427313429", Names = { "Left Leg", "Right Leg", "Left Arm", "Right Arm" }, Offset = CFrame.Angles(0, 0, 1.57), TextureId = "97148121718581" },
 		{ MeshId = "83395427313429", Names = { "Right Leg", "Left Leg", "Right Arm", "Left Arm" }, Offset = CFrame.Angles(0, 0, 1.57), TextureId = "97148121718581" },
 		
+                { MeshId = "77350629883145", Name = "Torso", Offset = CFrame.identity, TextureId = "98583447334908" },
 		{ MeshId = "18640899369", Name = "Torso", Offset = CFrame.identity, TextureId = "18640899481" },--18641046146
 		{ MeshId = "14768666349", Name = "Torso", Offset = CFrame.identity, TextureId = "14768664565" },--14255528083
 		{ MeshId = "110684113028749", Name = "Torso", Offset = CFrame.identity, TextureId = "70661572547971" },--138364679836274
