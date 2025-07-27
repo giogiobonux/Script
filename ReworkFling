@@ -1445,7 +1445,78 @@ RunService.RenderStepped:Connect(function()
 			eight = ""
 
 		end
+                if page == 7 and Destroyed == false then
+			Wheel.EmoteMenuHolder.Next.Visible = true
+			one1.Image = "rbxassetid://81594862599567" -- SquidWardYell
+			two2.Image = "rbxassetid://93387041641721" -- _chicken
+			three3.Image = "rbxassetid://132583909518061" -- virtual insanity
+			four4.Image = "rbxassetid://114687172329033" -- Tenna / ill add the multiple emote feature later
+			five5.Image = "rbxassetid://80669217430800" -- TUFF
+			six6.Image = "rbxassetid://75414967011351" -- static
+			seven7.Image = "rbxassetid://131039110819633" -- macerina
+			eight8.Image = "rbxassetid://11769283964" -- Cinderella
+			one1.Holder.Value = "Squidward Yell"
+			two2.Holder.Value = "Chicken"
+			three3.Holder.Value = "Virtual Insanity"
+			four4.Holder.Value = "Tenna"
+			five5.Holder.Value = "Who Wins"
+			six6.Holder.Value = "static"
+			seven7.Holder.Value = "Macerina"
+			eight8.Holder.Value = "Cinderella"
+			one1.AnimID.Value = 126087359477178
+			two2.AnimID.Value = 95127225490093
+			three3.AnimID.Value = 103333882912121
+			four4.AnimID.Value = 114687172329033
+			five5.AnimID.Value = 115378790472408
+			six6.AnimID.Value = 122513338460483
+			seven7.AnimID.Value = 99366472605758
+			eight8.AnimID.Value = 92131061687307
+			one = ""
+			two = ""
+			three = ""
+			four = ""
+			five = ""
+			six = ""
+			seven = ""
+			eight = ""
 
+		end
+		if page == 8 and Destroyed == false then
+			Wheel.EmoteMenuHolder.Next.Visible = false
+			one1.Image = "rbxassetid://124186162960822" -- Carried
+			two2.Image = "rbxassetid://91183099073835" -- ByeBye
+			three3.Image = "rbxassetid://106270433212018" -- Penguin
+			four4.Image = "rbxassetid://93387041641721" -- AICatDance
+			five5.Image = "rbxassetid://94349587695619" -- Fly
+			six6.Image = "rbxassetid://99019426225118" -- Mesmerizer
+			seven7.Image = "rbxassetid://0" -- pretty dance
+			eight8.Image = "rbxassetid://83576021763587" -- Schadenfreude
+			one1.Holder.Value = "Best Survivor"
+			two2.Holder.Value = "Bye Bye"
+			three3.Holder.Value = "Penguin"
+			four4.Holder.Value = "Cat Dance"
+			five5.Holder.Value = "House Fly"
+			six6.Holder.Value = "Mesmerizer"
+			seven7.Holder.Value = "pretty dance"
+			eight8.Holder.Value = "Schadenfreude"
+			one1.AnimID.Value = 82611693893508
+			two2.AnimID.Value = 125085338946162
+			three3.AnimID.Value = 140473893442758
+			four4.AnimID.Value = 133145243088885
+			five5.AnimID.Value = 121751474249467
+			six6.AnimID.Value = "86354010490364"
+			seven7.AnimID.Value = "85315044663872"
+			eight8.AnimID.Value = "75798689481181"
+			one = ""
+			two = ""
+			three = ""
+			four = ""
+			five = ""
+			six = ""
+			seven = ""
+			eight = ""
+
+		end
 	end
 end)
 
